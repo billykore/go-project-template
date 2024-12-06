@@ -14,6 +14,7 @@ type Config struct {
 	HTTP     internal.HTTP
 	Token    internal.Token
 	Postgres internal.Postgres
+	SQLite   internal.SQLite
 }
 
 var (

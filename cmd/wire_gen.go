@@ -12,10 +12,15 @@ import (
 	"github.com/billykore/go-service-tmpl/infra/http/server"
 	"github.com/billykore/go-service-tmpl/infra/storage/repo"
 	"github.com/billykore/go-service-tmpl/pkg/config"
+	"github.com/billykore/go-service-tmpl/pkg/db/sqlite"
 	"github.com/billykore/go-service-tmpl/pkg/logger"
 	"github.com/billykore/go-service-tmpl/pkg/validation"
-	_ "github.com/joho/godotenv/autoload"
 	"github.com/labstack/echo/v4"
+)
+
+import (
+	_ "github.com/billykore/go-service-tmpl/cmd/swagger/docs"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 // Injectors from wire.go:
@@ -24,7 +29,8 @@ func initApp(cfg *config.Config) *app {
 	loggerLogger := logger.New()
 	echoEcho := echo.New()
 	validator := validation.New()
-	greetRepo := repo.NewGreetRepo()
+	db := postgres.New(cfg)
+	greetRepo := repo.NewGreetRepo(db)
 	service := greet.NewService(loggerLogger, greetRepo)
 	greetHandler := handler.NewGreetHandler(validator, service)
 	router := server.NewRouter(cfg, loggerLogger, echoEcho, greetHandler)

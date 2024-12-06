@@ -32,7 +32,7 @@ migrate-up:
 	@migrate -path pkg/db/migrations -database $(dsn) -verbose up $(step)
 
 # Examples:
-# make migrate-down db=auth dsn='postgres://user:password@localhost:5432/db?sslmode=disable' step=1
+# make migrate-down dsn='postgres://user:password@localhost:5432/db?sslmode=disable' step=1
 .PHONY: migrate-down
 migrate-down:
 	@echo "Migrate down..."

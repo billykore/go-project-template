@@ -1,6 +1,8 @@
 package server
 
 import (
+	"net/http"
+
 	"github.com/billykore/go-service-tmpl/infra/http/handler"
 	"github.com/billykore/go-service-tmpl/pkg/config"
 	"github.com/billykore/go-service-tmpl/pkg/logger"
@@ -71,10 +73,17 @@ func (r *Router) Run() {
 	r.useMiddlewares()
 	r.swagger()
 	r.setGreetRoutes()
+	r.setNeedAuthRoutes()
 	r.run()
 }
 
 func (r *Router) setGreetRoutes() {
 	r.router.GET("/hello", r.greetHandler.History)
 	r.router.POST("/hello", r.greetHandler.SayHello)
+}
+
+func (r *Router) setNeedAuthRoutes() {
+	r.router.GET("/need-auth", func(ctx echo.Context) error {
+		return ctx.NoContent(http.StatusOK)
+	}, authMiddleware())
 }

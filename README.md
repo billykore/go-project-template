@@ -11,26 +11,26 @@ and best practices for separating concerns and managing dependencies.
 ```text
 ├── api/                # API related documentation.
 │   └── docs/           # Generated swagger documentation.
-├── cmd/                # Entry points for the application (e.g., HTTP server, CLI, etc.)
-├── domain/             # Core domain logic (Entities, Value Objects, Aggregates, Interfaces)
-│   ├── greet/          # Greet domain
-│   └── ...             # Another domain
-├── infra/              # Frameworks, database, and external APIs
-│   ├── storage/        # Database implementation (Postgres, Redis, etc.)
-│   ├── http/           # HTTP server (Handlers, Routers)
-│   └── ...             # Another domain
-├── pkg/                # Shared libraries or utilities
-├── script/             # Utility scripts
-├── .gitignore          # gitignore file
-├── Dockerfile          # Application Dockerfile
-├── go.mod              # Go module definition
-├── Makefile            # Makefile
-└── README.md           # Project documentation
+├── cmd/                # Entry points for the application (e.g., HTTP server, CLI, etc.).
+├── domain/             # Core domain logic (Entities, Value Objects, Aggregates, Interfaces).
+│   ├── greet/          # Greet domain.
+│   └── ...             # Other domains.
+├── infra/              # Frameworks, database, and external APIs.
+│   ├── storage/        # Database implementation (Postgres, Redis, etc.).
+│   ├── http/           # HTTP server (Handlers, Routers).
+│   └── ...             # Other infrastructures.
+├── pkg/                # Shared libraries or utilities.
+├── script/             # Utility scripts.
+├── .gitignore          # .gitignore file.
+├── Dockerfile          # Application Dockerfile.
+├── go.mod              # Go module definition.
+├── Makefile            # Makefile.
+└── README.md           # Project documentation.
 ```
 
 # Modules
 
-Some open source modules we used are:
+Some of the open-source modules we used are:
 
 - [Echo](https://echo.labstack.com) for http routing.
 - [GORM](https://gorm.io) for database ORM.

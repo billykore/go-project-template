@@ -1,6 +1,6 @@
 package greet
 
-type MessagesResponse struct {
+type Response struct {
 	Name string `json:"name"`
 }
 

@@ -2,36 +2,34 @@ package repo
 
 import (
 	"context"
-	"errors"
 
 	"github.com/billykore/go-service-tmpl/domain/greet"
+	"gorm.io/gorm"
 )
 
 type GreetRepo struct {
-	names []string
+	db *gorm.DB
 }
 
-func NewGreetRepo() *GreetRepo {
+func NewGreetRepo(db *gorm.DB) *GreetRepo {
 	return &GreetRepo{
-		names: make([]string, 0),
+		db: db,
 	}
 }
 
-func (r *GreetRepo) GetAll(_ context.Context) ([]greet.Message, error) {
-	if len(r.names) == 0 {
-		return nil, greet.ErrEmptyMessages
+func (r *GreetRepo) GetAll(ctx context.Context) ([]greet.Greet, error) {
+	var greets []greet.Greet
+	res := r.db.WithContext(ctx).Find(&greets)
+	if err := res.Error; err != nil {
+		return nil, err
 	}
-	var greets []greet.Message
-	for _, name := range r.names {
-		greets = append(greets, greet.Message{Name: name})
+	if len(greets) == 0 {
+		return nil, greet.ErrEmptyGreets
 	}
 	return greets, nil
 }
 
-func (r *GreetRepo) Save(_ context.Context, message greet.Message) error {
-	if message.Name == "" {
-		return errors.New("message name is empty")
-	}
-	r.names = append(r.names, message.Name)
-	return nil
+func (r *GreetRepo) Save(ctx context.Context, message greet.Greet) error {
+	res := r.db.WithContext(ctx).Save(&message)
+	return res.Error
 }
