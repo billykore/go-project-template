@@ -1,7 +1,8 @@
 package handler
 
 import (
-	"github.com/billykore/go-service-tmpl/domain/greet"
+	"github.com/billykore/go-service-tmpl/internal/core"
+	"github.com/billykore/go-service-tmpl/internal/dto"
 	"github.com/billykore/go-service-tmpl/pkg/entity"
 	"github.com/billykore/go-service-tmpl/pkg/validation"
 	"github.com/labstack/echo/v4"
@@ -9,10 +10,10 @@ import (
 
 type GreetHandler struct {
 	va  *validation.Validator
-	svc *greet.Service
+	svc *core.GreetService
 }
 
-func NewGreetHandler(va *validation.Validator, svc *greet.Service) *GreetHandler {
+func NewGreetHandler(va *validation.Validator, svc *core.GreetService) *GreetHandler {
 	return &GreetHandler{
 		va:  va,
 		svc: svc,
@@ -53,7 +54,7 @@ func (h *GreetHandler) History(ctx echo.Context) error {
 //	@Failure		500				{object}	entity.Response
 //	@Router			/hello [post]
 func (h *GreetHandler) SayHello(ctx echo.Context) error {
-	var req greet.HelloRequest
+	var req dto.HelloRequest
 	err := ctx.Bind(&req)
 	if err != nil {
 		return ctx.JSON(entity.ResponseBadRequest(err))

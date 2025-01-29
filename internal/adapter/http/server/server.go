@@ -3,7 +3,7 @@ package server
 import (
 	"net/http"
 
-	"github.com/billykore/go-service-tmpl/infra/http/handler"
+	"github.com/billykore/go-service-tmpl/internal/adapter/http/handler"
 	"github.com/billykore/go-service-tmpl/pkg/config"
 	"github.com/billykore/go-service-tmpl/pkg/logger"
 	"github.com/labstack/echo/v4"

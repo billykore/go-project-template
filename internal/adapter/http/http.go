@@ -1,8 +1,8 @@
 package http
 
 import (
-	"github.com/billykore/go-service-tmpl/infra/http/handler"
-	"github.com/billykore/go-service-tmpl/infra/http/server"
+	"github.com/billykore/go-service-tmpl/internal/adapter/http/handler"
+	"github.com/billykore/go-service-tmpl/internal/adapter/http/server"
 	"github.com/google/wire"
 )
 

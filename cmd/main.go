@@ -2,7 +2,7 @@ package main
 
 import (
 	_ "github.com/billykore/go-service-tmpl/cmd/swagger/docs"
-	"github.com/billykore/go-service-tmpl/infra/http/server"
+	"github.com/billykore/go-service-tmpl/internal/adapter/http/server"
 	"github.com/billykore/go-service-tmpl/pkg/config"
 	_ "github.com/joho/godotenv/autoload"
 )

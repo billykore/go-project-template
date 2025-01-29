@@ -1,9 +1,9 @@
-package repo
+package repository
 
 import (
 	"context"
 
-	"github.com/billykore/go-service-tmpl/domain/greet"
+	"github.com/billykore/go-service-tmpl/internal/domain"
 	"gorm.io/gorm"
 )
 
@@ -17,16 +17,19 @@ func NewGreetRepo(db *gorm.DB) *GreetRepo {
 	}
 }
 
-func (r *GreetRepo) GetAll(ctx context.Context) ([]greet.Greet, error) {
-	var greets []greet.Greet
+func (r *GreetRepo) GetAll(ctx context.Context) ([]domain.Greet, error) {
+	var greets []domain.Greet
 	res := r.db.WithContext(ctx).Find(&greets)
 	if err := res.Error; err != nil {
 		return nil, err
 	}
+	if len(greets) == 0 {
+		return nil, domain.ErrEmptyGreets
+	}
 	return greets, nil
 }
 
-func (r *GreetRepo) Save(ctx context.Context, message greet.Greet) error {
+func (r *GreetRepo) Save(ctx context.Context, message domain.Greet) error {
 	res := r.db.WithContext(ctx).Save(&message)
 	return res.Error
 }

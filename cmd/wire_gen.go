@@ -7,10 +7,10 @@
 package main
 
 import (
-	"github.com/billykore/go-service-tmpl/domain/greet"
-	"github.com/billykore/go-service-tmpl/infra/http/handler"
-	"github.com/billykore/go-service-tmpl/infra/http/server"
-	"github.com/billykore/go-service-tmpl/infra/storage/repo"
+	"github.com/billykore/go-service-tmpl/internal/adapter/http/handler"
+	"github.com/billykore/go-service-tmpl/internal/adapter/http/server"
+	"github.com/billykore/go-service-tmpl/internal/adapter/repository"
+	"github.com/billykore/go-service-tmpl/internal/core"
 	"github.com/billykore/go-service-tmpl/pkg/config"
 	"github.com/billykore/go-service-tmpl/pkg/db/sqlite"
 	"github.com/billykore/go-service-tmpl/pkg/logger"
@@ -30,9 +30,9 @@ func initApp(cfg *config.Config) *app {
 	echoEcho := echo.New()
 	validator := validation.New()
 	db := postgres.New(cfg)
-	greetRepo := repo.NewGreetRepo(db)
-	service := greet.NewService(loggerLogger, greetRepo)
-	greetHandler := handler.NewGreetHandler(validator, service)
+	greetRepo := repository.NewGreetRepo(db)
+	greetService := core.NewGreetService(loggerLogger, greetRepo)
+	greetHandler := handler.NewGreetHandler(validator, greetService)
 	router := server.NewRouter(cfg, loggerLogger, echoEcho, greetHandler)
 	serverServer := server.New(router)
 	mainApp := newApp(serverServer)
