@@ -11,11 +11,11 @@ generate-wire:
 	@./scripts/wire.sh
 
 # Examples:
-# make run service=auth
+# make run
 .PHONY: run
 run:
 	@echo "Run app..."
-	@go run ./cmd/app
+	@go run ./cmd
 
 # Examples:
 # make create-migration name=create_products_table
@@ -42,10 +42,16 @@ migrate-down:
 # make generate-swagger
 .PHONY: generate-swagger
 generate-swagger:
-	@./scripts/doc.sh
+	@./scripts/swagger.sh
 
 # Example:
 # make lint
 .PHONY: lint
 lint:
 	@./scripts/lint.sh
+
+# Example:
+# make generate-mocks
+.PHONY: generate-mocks
+generate-mocks:
+	@./scripts/mocks.sh

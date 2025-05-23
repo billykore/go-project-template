@@ -1,0 +1,10 @@
+name: My Service Configurations
+version: 1.0.0
+configs:
+  app:
+    port: 3000
+  postgres:
+    dsn: "host=localhost user=postgres password=password dbname=mydb port=5432 sslmode=disable TimeZone=Asia/Jakarta"
+  token:
+    secret: "_jwt_secret_"
+    headerKid: "ID-001"

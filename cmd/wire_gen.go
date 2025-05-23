@@ -7,34 +7,28 @@
 package main
 
 import (
-	"github.com/billykore/go-service-tmpl/domain/greet"
-	"github.com/billykore/go-service-tmpl/infra/http/handler"
-	"github.com/billykore/go-service-tmpl/infra/http/server"
-	"github.com/billykore/go-service-tmpl/infra/storage/repo"
-	"github.com/billykore/go-service-tmpl/pkg/config"
-	"github.com/billykore/go-service-tmpl/pkg/db/sqlite"
-	"github.com/billykore/go-service-tmpl/pkg/logger"
-	"github.com/billykore/go-service-tmpl/pkg/validation"
+	"github.com/billykore/go-service-tmpl/internal/http/handler"
+	"github.com/billykore/go-service-tmpl/internal/http/router"
+	"github.com/billykore/go-service-tmpl/internal/storage/repo"
+	"github.com/billykore/go-service-tmpl/pkg/service"
+	"github.com/billykore/go-service-tmpl/pkg/utils/config"
+	"github.com/billykore/go-service-tmpl/pkg/utils/db/postgres"
+	"github.com/billykore/go-service-tmpl/pkg/utils/log"
+	"github.com/billykore/go-service-tmpl/pkg/utils/validation"
 	"github.com/labstack/echo/v4"
-)
-
-import (
-	_ "github.com/billykore/go-service-tmpl/cmd/swagger/docs"
-	_ "github.com/joho/godotenv/autoload"
 )
 
 // Injectors from wire.go:
 
-func initApp(cfg *config.Config) *app {
-	loggerLogger := logger.New()
+func initApp(cfg *config.Configs) *app {
+	logger := log.NewLogger()
 	echoEcho := echo.New()
 	validator := validation.New()
 	db := postgres.New(cfg)
 	greetRepo := repo.NewGreetRepo(db)
-	service := greet.NewService(loggerLogger, greetRepo)
-	greetHandler := handler.NewGreetHandler(validator, service)
-	router := server.NewRouter(cfg, loggerLogger, echoEcho, greetHandler)
-	serverServer := server.New(router)
-	mainApp := newApp(serverServer)
+	greetService := service.NewGreetService(logger, greetRepo)
+	greetHandler := handler.NewGreetHandler(validator, greetService)
+	routerRouter := router.New(cfg, logger, echoEcho, greetHandler)
+	mainApp := newApp(routerRouter)
 	return mainApp
 }

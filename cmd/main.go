@@ -1,19 +1,17 @@
 package main
 
 import (
-	_ "github.com/billykore/go-service-tmpl/cmd/swagger/docs"
-	"github.com/billykore/go-service-tmpl/infra/http/server"
-	"github.com/billykore/go-service-tmpl/pkg/config"
-	_ "github.com/joho/godotenv/autoload"
+	"github.com/billykore/go-service-tmpl/internal/http/router"
+	"github.com/billykore/go-service-tmpl/pkg/utils/config"
 )
 
 type app struct {
-	ss *server.Server
+	r *router.Router
 }
 
-func newApp(ss *server.Server) *app {
+func newApp(r *router.Router) *app {
 	return &app{
-		ss: ss,
+		r: r,
 	}
 }
 
@@ -32,7 +30,7 @@ func newApp(ss *server.Server) *app {
 //	@schemes		http https
 //	@BasePath		/api/v1
 func main() {
-	c := config.Get()
+	c := config.Load()
 	a := initApp(c)
-	a.ss.Serve()
+	a.r.Run()
 }

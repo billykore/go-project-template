@@ -1,0 +1,73 @@
+basePath: /api/v1
+definitions:
+  dto.HelloRequest:
+    properties:
+      name:
+        minLength: 3
+        type: string
+    required:
+    - name
+    type: object
+  response.Response:
+    properties:
+      data: {}
+      error: {}
+      message:
+        type: string
+      serverTime:
+        type: string
+      status:
+        type: string
+    type: object
+host: id.greet.org
+info:
+  contact:
+    email: '[Your Email]'
+    name: '[Your Name]'
+    url: https://www.swagger.io/support
+  description: Greet service API specification.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://swagger.io/terms/
+  title: API Specification
+  version: "1.0"
+paths:
+  /hello:
+    post:
+      consumes:
+      - application/json
+      description: Say hello to the name
+      parameters:
+      - description: Say Hello Request
+        in: body
+        name: HelloRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.HelloRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Say hello
+      tags:
+      - greet
+schemes:
+- http
+- https
+swagger: "2.0"
