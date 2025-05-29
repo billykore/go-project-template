@@ -7,14 +7,13 @@
 package main
 
 import (
-	"github.com/billykore/go-service-tmpl/internal/http/handler"
-	"github.com/billykore/go-service-tmpl/internal/http/router"
-	"github.com/billykore/go-service-tmpl/internal/storage/repo"
-	"github.com/billykore/go-service-tmpl/pkg/service"
-	"github.com/billykore/go-service-tmpl/pkg/utils/config"
-	"github.com/billykore/go-service-tmpl/pkg/utils/db/postgres"
-	"github.com/billykore/go-service-tmpl/pkg/utils/log"
-	"github.com/billykore/go-service-tmpl/pkg/utils/validation"
+	"github.com/billykore/go-service-tmpl/internal/adapter/http/handler"
+	"github.com/billykore/go-service-tmpl/internal/adapter/http/server"
+	"github.com/billykore/go-service-tmpl/internal/adapter/storage/repo"
+	"github.com/billykore/go-service-tmpl/internal/app/example"
+	"github.com/billykore/go-service-tmpl/internal/pkg/config"
+	"github.com/billykore/go-service-tmpl/internal/pkg/log"
+	"github.com/billykore/go-service-tmpl/internal/pkg/validation"
 	"github.com/labstack/echo/v4"
 )
 
@@ -24,11 +23,10 @@ func initApp(cfg *config.Configs) *app {
 	logger := log.NewLogger()
 	echoEcho := echo.New()
 	validator := validation.New()
-	db := postgres.New(cfg)
-	greetRepo := repo.NewGreetRepo(db)
-	greetService := service.NewGreetService(logger, greetRepo)
-	greetHandler := handler.NewGreetHandler(validator, greetService)
-	routerRouter := router.New(cfg, logger, echoEcho, greetHandler)
-	mainApp := newApp(routerRouter)
+	exampleRepo := repo.NewExampleRepo()
+	service := example.NewService(exampleRepo)
+	exampleHandler := handler.NewExampleHandler(validator, service)
+	serverServer := server.New(cfg, logger, echoEcho, exampleHandler)
+	mainApp := newApp(serverServer)
 	return mainApp
 }

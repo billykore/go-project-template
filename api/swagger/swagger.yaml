@@ -1,12 +1,9 @@
 basePath: /api/v1
 definitions:
-  dto.HelloRequest:
+  dto.GetRequest:
     properties:
-      name:
-        minLength: 3
-        type: string
-    required:
-    - name
+      id:
+        type: integer
     type: object
   response.Response:
     properties:
@@ -33,18 +30,18 @@ info:
   title: API Specification
   version: "1.0"
 paths:
-  /hello:
-    post:
+  /example:
+    get:
       consumes:
       - application/json
-      description: Say hello to the name
+      description: Get example by ID.
       parameters:
-      - description: Say Hello Request
+      - description: Get Request
         in: body
         name: HelloRequest
         required: true
         schema:
-          $ref: '#/definitions/dto.HelloRequest'
+          $ref: '#/definitions/dto.GetRequest'
       produces:
       - application/json
       responses:
@@ -64,9 +61,9 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.Response'
-      summary: Say hello
+      summary: Get example
       tags:
-      - greet
+      - example
 schemes:
 - http
 - https

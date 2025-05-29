@@ -24,9 +24,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/hello": {
-            "post": {
-                "description": "Say hello to the name",
+        "/example": {
+            "get": {
+                "description": "Get example by ID.",
                 "consumes": [
                     "application/json"
                 ],
@@ -34,17 +34,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "greet"
+                    "example"
                 ],
-                "summary": "Say hello",
+                "summary": "Get example",
                 "parameters": [
                     {
-                        "description": "Say Hello Request",
+                        "description": "Get Request",
                         "name": "HelloRequest",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.HelloRequest"
+                            "$ref": "#/definitions/dto.GetRequest"
                         }
                     }
                 ],
@@ -78,15 +78,11 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dto.HelloRequest": {
+        "dto.GetRequest": {
             "type": "object",
-            "required": [
-                "name"
-            ],
             "properties": {
-                "name": {
-                    "type": "string",
-                    "minLength": 3
+                "id": {
+                    "type": "integer"
                 }
             }
         },

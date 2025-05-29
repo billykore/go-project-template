@@ -1,17 +1,17 @@
 package main
 
 import (
-	"github.com/billykore/go-service-tmpl/internal/http/router"
-	"github.com/billykore/go-service-tmpl/pkg/utils/config"
+	"github.com/billykore/go-service-tmpl/internal/adapter/http/server"
+	"github.com/billykore/go-service-tmpl/internal/pkg/config"
 )
 
 type app struct {
-	r *router.Router
+	srv *server.Server
 }
 
-func newApp(r *router.Router) *app {
+func newApp(srv *server.Server) *app {
 	return &app{
-		r: r,
+		srv: srv,
 	}
 }
 
@@ -32,5 +32,5 @@ func newApp(r *router.Router) *app {
 func main() {
 	c := config.Load()
 	a := initApp(c)
-	a.r.Run()
+	a.srv.Run()
 }
