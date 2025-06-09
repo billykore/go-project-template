@@ -1,7 +1,7 @@
-package app
+package service
 
 import (
-	"github.com/billykore/go-service-tmpl/internal/app/example"
+	"github.com/billykore/go-service-tmpl/internal/service/example"
 	"github.com/google/wire"
 )
 

@@ -9,7 +9,7 @@ import (
 )
 
 var ProviderSet = wire.NewSet(
-	log.NewLogger,
+	log.New,
 	validation.New,
 	postgres.New,
 	httpclient.New,

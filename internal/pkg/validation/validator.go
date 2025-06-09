@@ -20,7 +20,7 @@ func New() *Validator {
 		v: validator.New(),
 	}
 	if err := vv.registerCustomValidation(); err != nil {
-		log.NewLogger().Fatal(err)
+		log.New().Fatalf("registerCustomValidation: %v", err)
 	}
 	return vv
 }

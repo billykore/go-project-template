@@ -12,7 +12,7 @@ func New(cfg *config.Configs) *gorm.DB {
 	dsn := cfg.Postgres.DSN
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.NewLogger().Fatalf("failed to connect database: %v", err)
+		log.New().Fatalf("failed to connect database: %v", err)
 	}
 	return db
 }

@@ -11,8 +11,9 @@ type Service struct {
 	repo example.Repository
 }
 
-func NewService(repo example.Repository) *Service {
+func NewService(log *log.Logger, repo example.Repository) *Service {
 	return &Service{
+		log:  log,
 		repo: repo,
 	}
 }
@@ -29,7 +30,7 @@ func (s *Service) Get(id int) (example.Entity, error) {
 func (s *Service) Save(e example.Entity) error {
 	err := s.repo.Save(e)
 	if err != nil {
-		s.log.Usecase("Save").Errorf("Save filed: %v", err)
+		s.log.Usecase("Save").Errorf("Save failed: %v", err)
 		return pkgerror.InternalServerError(ErrSaveEntityFailed)
 	}
 	return nil

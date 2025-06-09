@@ -3,8 +3,8 @@ package handler
 import (
 	"github.com/billykore/go-service-tmpl/internal/adapter/http/dto"
 	"github.com/billykore/go-service-tmpl/internal/adapter/http/response"
-	"github.com/billykore/go-service-tmpl/internal/app/example"
 	"github.com/billykore/go-service-tmpl/internal/pkg/validation"
+	"github.com/billykore/go-service-tmpl/internal/service/example"
 	"github.com/labstack/echo/v4"
 )
 

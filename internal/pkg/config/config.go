@@ -6,7 +6,6 @@ import (
 	"github.com/billykore/go-service-tmpl/internal/pkg/config/internal"
 	"github.com/billykore/go-service-tmpl/internal/pkg/log"
 	"github.com/spf13/viper"
-	"go.uber.org/zap"
 )
 
 // Configs hold the application configurations.
@@ -24,7 +23,7 @@ type Config struct {
 
 // Load loads application configuration from a YAML file using Viper.
 func Load() *Configs {
-	logger := log.NewLogger()
+	logger := log.New()
 
 	viper.SetConfigName("configs")
 	viper.SetConfigType("yaml")
@@ -37,7 +36,7 @@ func Load() *Configs {
 	cfg := new(Config)
 	err := viper.Unmarshal(cfg)
 	if err != nil {
-		logger.ZapLogger().Info("failed to unmarshal config: %v", zap.Error(err))
+		logger.Infof("failed to unmarshal config: %v", err)
 	}
 
 	return &cfg.Configs

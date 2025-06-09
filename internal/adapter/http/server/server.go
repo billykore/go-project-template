@@ -45,7 +45,6 @@ func (srv *Server) useMiddlewares() {
 
 func (srv *Server) run() {
 	port := srv.cfg.App.Port
-	srv.log.Infof("running on port [:%v]", port)
 	if err := srv.router.Start(":" + port); err != nil {
 		srv.log.Fatalf("failed to run on port [:%v]", port)
 	}

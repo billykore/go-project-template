@@ -18,7 +18,7 @@ type validationRegistry map[string]func(fl validator.FieldLevel) bool
 
 // customValidations is a registry of custom validation functions.
 //
-// Add your custom validation functions here.
+// Add custom validation functions here.
 var customValidations = validationRegistry{
 	"phonenumber": ValidPhoneNumber,
 }

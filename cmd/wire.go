@@ -4,21 +4,19 @@
 package main
 
 import (
-	"github.com/billykore/go-service-tmpl/internal/adapter/http"
-	"github.com/billykore/go-service-tmpl/internal/adapter/storage"
-	internalapp "github.com/billykore/go-service-tmpl/internal/app"
+	"github.com/billykore/go-service-tmpl/internal/adapter"
 	"github.com/billykore/go-service-tmpl/internal/pkg"
 	"github.com/billykore/go-service-tmpl/internal/pkg/config"
+	"github.com/billykore/go-service-tmpl/internal/service"
 	"github.com/google/wire"
 	"github.com/labstack/echo/v4"
 )
 
 func initApp(cfg *config.Configs) *app {
 	wire.Build(
-		http.ProviderSet,
+		adapter.ProviderSet,
 		pkg.ProviderSet,
-		internalapp.ProviderSet,
-		storage.ProviderSet,
+		service.ProviderSet,
 		echo.New,
 		newApp,
 	)
