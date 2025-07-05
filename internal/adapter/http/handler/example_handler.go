@@ -43,7 +43,7 @@ func (h *ExampleHandler) Get(ctx echo.Context) error {
 	if err != nil {
 		return ctx.JSON(response.BadRequest(err))
 	}
-	e, err := h.svc.Get(req.ID)
+	e, err := h.svc.GetEntity(req.ID)
 	if err != nil {
 		return ctx.JSON(response.Error(err))
 	}
