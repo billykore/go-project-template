@@ -5,16 +5,22 @@ definitions:
       id:
         type: integer
     type: object
+  dto.SaveRequest:
+    properties:
+      id:
+        type: integer
+    type: object
   response.Response:
     properties:
       data: {}
-      error: {}
       message:
         type: string
       serverTime:
         type: string
       status:
         type: string
+      success:
+        type: boolean
     type: object
 host: id.greet.org
 info:
@@ -34,11 +40,11 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get example by ID.
+      description: GetEntity example by ID.
       parameters:
-      - description: Get Request
+      - description: GetEntity Request
         in: body
-        name: HelloRequest
+        name: GetRequest
         required: true
         schema:
           $ref: '#/definitions/dto.GetRequest'
@@ -61,7 +67,40 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.Response'
-      summary: Get example
+      summary: GetEntity example
+      tags:
+      - example
+    post:
+      consumes:
+      - application/json
+      description: SaveEntity example.
+      parameters:
+      - description: SaveEntity Request
+        in: body
+        name: SaveRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SaveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: SaveEntity example
       tags:
       - example
 schemes:

@@ -6,7 +6,7 @@ import (
 
 // GetRequest represents a request to retrieve data or resources from the system.
 type GetRequest struct {
-	ID int
+	ID int `param:"id"`
 }
 
 // GetResponse represents the response received after a get operation.

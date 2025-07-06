@@ -13,9 +13,15 @@ func NewExampleRepo() *ExampleRepo {
 }
 
 func (repo ExampleRepo) Get(id int) (example.Entity, error) {
+	if id <= 0 {
+		return example.Entity{}, example.ErrNotFound
+	}
 	return example.Entity{ID: id}, nil
 }
 
 func (repo ExampleRepo) Save(e example.Entity) error {
+	if e.ID <= 0 {
+		return example.ErrSaveFailed
+	}
 	return nil
 }

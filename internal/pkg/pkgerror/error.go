@@ -4,35 +4,33 @@ import (
 	"github.com/billykore/go-service-tmpl/internal/pkg/codes"
 )
 
-const defaultMsg = "Please try again later. If the problem persists, please contact support."
+const DefaultMsg = "Please try again later. If the problem persists, please contact support."
 
 // Error represents domain error.
 type Error struct {
 	// Code is the error code.
 	Code codes.Code
-	// Err is the error.
-	Err error
 	// Msg is the custom error message that will be displayed to the client.
+	// If no message is provided, the DefaultMsg will be used.
 	Msg string
 }
 
 // New returns new Error.
-func New(c codes.Code, err error) *Error {
+func New(c codes.Code) *Error {
 	return &Error{
 		Code: c,
-		Err:  err,
-		Msg:  defaultMsg,
+		Msg:  DefaultMsg,
 	}
 }
 
 // NotFound returns a new Error with NotFound code.
-func NotFound(err error) *Error {
-	return New(codes.NotFound, err)
+func NotFound() *Error {
+	return New(codes.NotFound)
 }
 
 // InternalServerError returns a new Error with InternalServerError code.
-func InternalServerError(err error) *Error {
-	return New(codes.Internal, err)
+func InternalServerError() *Error {
+	return New(codes.Internal)
 }
 
 // SetMsg sets a custom error message for the client to display.
@@ -46,5 +44,5 @@ func (err *Error) SetMsg(msg string) *Error {
 }
 
 func (err *Error) Error() string {
-	return err.Err.Error()
+	return err.Msg
 }

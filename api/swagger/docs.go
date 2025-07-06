@@ -26,7 +26,7 @@ const docTemplate = `{
     "paths": {
         "/example": {
             "get": {
-                "description": "Get example by ID.",
+                "description": "GetEntity example by ID.",
                 "consumes": [
                     "application/json"
                 ],
@@ -36,15 +36,65 @@ const docTemplate = `{
                 "tags": [
                     "example"
                 ],
-                "summary": "Get example",
+                "summary": "GetEntity example",
                 "parameters": [
                     {
-                        "description": "Get Request",
-                        "name": "HelloRequest",
+                        "description": "GetEntity Request",
+                        "name": "GetRequest",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/dto.GetRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "SaveEntity example.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "example"
+                ],
+                "summary": "SaveEntity example",
+                "parameters": [
+                    {
+                        "description": "SaveEntity Request",
+                        "name": "SaveRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SaveRequest"
                         }
                     }
                 ],
@@ -86,11 +136,18 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.SaveRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
         "response.Response": {
             "type": "object",
             "properties": {
                 "data": {},
-                "error": {},
                 "message": {
                     "type": "string"
                 },
@@ -99,6 +156,9 @@ const docTemplate = `{
                 },
                 "status": {
                     "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
                 }
             }
         }

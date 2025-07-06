@@ -22,16 +22,16 @@ func (s *Service) GetEntity(id int) (example.Entity, error) {
 	e, err := s.repo.Get(id)
 	if err != nil {
 		s.log.Usecase("GetEntity").Errorf("GetEntity failed: %v", err)
-		return example.Entity{}, pkgerror.NotFound(ErrEntityNotFound).SetMsg("Example not found.")
+		return example.Entity{}, pkgerror.NotFound().SetMsg("Example not found.")
 	}
 	return e, nil
 }
 
-func (s *Service) SaveEntity(e example.Entity) error {
-	err := s.repo.Save(e)
+func (s *Service) SaveEntity(id int) error {
+	err := s.repo.Save(example.Entity{ID: id})
 	if err != nil {
 		s.log.Usecase("SaveEntity").Errorf("SaveEntity failed: %v", err)
-		return pkgerror.InternalServerError(ErrSaveEntityFailed)
+		return pkgerror.InternalServerError()
 	}
 	return nil
 }
