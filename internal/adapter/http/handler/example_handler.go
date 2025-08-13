@@ -4,16 +4,16 @@ import (
 	"github.com/billykore/go-service-tmpl/internal/adapter/http/dto"
 	"github.com/billykore/go-service-tmpl/internal/adapter/http/response"
 	"github.com/billykore/go-service-tmpl/internal/pkg/validation"
-	"github.com/billykore/go-service-tmpl/internal/service/example"
+	"github.com/billykore/go-service-tmpl/internal/usecase/example"
 	"github.com/labstack/echo/v4"
 )
 
 type ExampleHandler struct {
 	va  *validation.Validator
-	svc *example.Service
+	svc *example.Usecase
 }
 
-func NewExampleHandler(va *validation.Validator, svc *example.Service) *ExampleHandler {
+func NewExampleHandler(va *validation.Validator, svc *example.Usecase) *ExampleHandler {
 	return &ExampleHandler{
 		va:  va,
 		svc: svc,

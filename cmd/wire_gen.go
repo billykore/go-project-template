@@ -13,7 +13,7 @@ import (
 	"github.com/billykore/go-service-tmpl/internal/pkg/config"
 	"github.com/billykore/go-service-tmpl/internal/pkg/log"
 	"github.com/billykore/go-service-tmpl/internal/pkg/validation"
-	"github.com/billykore/go-service-tmpl/internal/service/example"
+	"github.com/billykore/go-service-tmpl/internal/usecase/example"
 	"github.com/labstack/echo/v4"
 )
 
@@ -24,7 +24,7 @@ func initApp(cfg *config.Configs) *app {
 	echoEcho := echo.New()
 	validator := validation.New()
 	exampleRepo := repo.NewExampleRepo()
-	service := example.NewService(logger, exampleRepo)
+	service := example.NewUsecase(logger, exampleRepo)
 	exampleHandler := handler.NewExampleHandler(validator, service)
 	serverServer := server.New(cfg, logger, echoEcho, exampleHandler)
 	mainApp := newApp(serverServer)
