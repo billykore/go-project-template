@@ -11,7 +11,6 @@ import (
 	"github.com/billykore/go-service-tmpl/internal/adapter/http/server"
 	"github.com/billykore/go-service-tmpl/internal/adapter/storage/repo"
 	"github.com/billykore/go-service-tmpl/internal/pkg/config"
-	"github.com/billykore/go-service-tmpl/internal/pkg/log"
 	"github.com/billykore/go-service-tmpl/internal/pkg/validation"
 	"github.com/billykore/go-service-tmpl/internal/usecase/example"
 	"github.com/labstack/echo/v4"
@@ -20,13 +19,12 @@ import (
 // Injectors from wire.go:
 
 func initApp(cfg *config.Configs) *app {
-	logger := log.New()
 	echoEcho := echo.New()
 	validator := validation.New()
 	exampleRepo := repo.NewExampleRepo()
-	service := example.NewUsecase(logger, exampleRepo)
-	exampleHandler := handler.NewExampleHandler(validator, service)
-	serverServer := server.New(cfg, logger, echoEcho, exampleHandler)
+	usecase := example.NewUsecase(exampleRepo)
+	exampleHandler := handler.NewExampleHandler(validator, usecase)
+	serverServer := server.New(cfg, echoEcho, exampleHandler)
 	mainApp := newApp(serverServer)
 	return mainApp
 }

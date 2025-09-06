@@ -1,71 +1,27 @@
 package log
 
 import (
-	"fmt"
-	"os"
-	"sync"
+	"runtime/debug"
 
-	"go.elastic.co/ecszap"
-	"go.uber.org/zap"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
-var (
-	_once sync.Once
-	_log  *Logger
-)
-
-// Logger provides logging functions.
-type Logger struct {
-	logger  *zap.Logger
-	usecase string
+// Configure sets up the global logger configuration.
+func Configure(env string) {
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	if env == "development" {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	}
+	// Add stack trace hook
+	log.Logger = log.Logger.Hook(StackHook{})
 }
 
-// New return the singleton instance of Logger.
-func New() *Logger {
-	_once.Do(func() {
-		logger := newZap()
-		_log = &Logger{logger: logger}
-	})
-	return _log
-}
+type StackHook struct{}
 
-func newZap() *zap.Logger {
-	encoderConfig := ecszap.NewDefaultEncoderConfig()
-	core := ecszap.NewCore(encoderConfig, os.Stdout, zap.InfoLevel)
-	logger := zap.New(core, zap.AddStacktrace(zap.PanicLevel))
-	return logger
-}
-
-// Logger returns the underlying zap.Logger instance for the Logger.
-func (l *Logger) Logger() *zap.Logger {
-	return l.logger
-}
-
-func (l *Logger) Usecase(usecase string) *Logger {
-	l.usecase = usecase
-	return l
-}
-
-// Errorf log.
-func (l *Logger) Errorf(format string, args ...any) {
-	l.logger.Error(
-		fmt.Sprintf(format, args...),
-		zap.String("usecase", l.usecase),
-	)
-}
-
-// Fatalf logs an error, then shutdown the domain.
-func (l *Logger) Fatalf(format string, args ...any) {
-	l.logger.Fatal(
-		fmt.Sprintf(format, args...),
-		zap.String("usecase", l.usecase),
-	)
-}
-
-// Infof log.
-func (l *Logger) Infof(format string, args ...any) {
-	l.logger.Info(
-		fmt.Sprintf(format, args...),
-		zap.String("usecase", l.usecase),
-	)
+func (h StackHook) Run(e *zerolog.Event, level zerolog.Level, _ string) {
+	if level >= zerolog.PanicLevel { // Add stack trace for Error and Fatal levels
+		e.Str("stack", string(debug.Stack()))
+	}
 }

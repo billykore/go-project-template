@@ -4,7 +4,7 @@ package config
 
 import (
 	"github.com/billykore/go-service-tmpl/internal/pkg/config/internal"
-	"github.com/billykore/go-service-tmpl/internal/pkg/log"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 )
 
@@ -23,20 +23,18 @@ type Config struct {
 
 // Load loads application configuration from a YAML file using Viper.
 func Load() *Configs {
-	logger := log.New()
-
 	viper.SetConfigName("configs")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(".")
 
 	if err := viper.ReadInConfig(); err != nil {
-		logger.Fatalf("failed to read config file: %v", err)
+		log.Panic().Err(err).Msg("failed to read config file")
 	}
 
 	cfg := new(Config)
 	err := viper.Unmarshal(cfg)
 	if err != nil {
-		logger.Infof("failed to unmarshal config: %v", err)
+		log.Panic().Err(err).Msg("failed to unmarshal config")
 	}
 
 	return &cfg.Configs

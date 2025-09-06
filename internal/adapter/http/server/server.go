@@ -1,17 +1,18 @@
 package server
 
 import (
+	"context"
+
 	"github.com/billykore/go-service-tmpl/internal/adapter/http/handler"
 	"github.com/billykore/go-service-tmpl/internal/pkg/config"
-	"github.com/billykore/go-service-tmpl/internal/pkg/log"
 	"github.com/labstack/echo/v4"
 	echomiddleware "github.com/labstack/echo/v4/middleware"
+	"github.com/rs/zerolog/log"
 )
 
 // Server represents the main server struct managing configuration, logging, and routing.
 type Server struct {
 	cfg            *config.Configs
-	log            *log.Logger
 	router         *echo.Echo
 	exampleHandler *handler.ExampleHandler
 }
@@ -19,13 +20,11 @@ type Server struct {
 // New returns new Router.
 func New(
 	cfg *config.Configs,
-	log *log.Logger,
 	router *echo.Echo,
 	exampleHandler *handler.ExampleHandler,
 ) *Server {
 	return &Server{
 		cfg:            cfg,
-		log:            log,
 		router:         router,
 		exampleHandler: exampleHandler,
 	}
@@ -46,6 +45,10 @@ func (srv *Server) useMiddlewares() {
 func (srv *Server) run() {
 	port := srv.cfg.App.Port
 	if err := srv.router.Start(":" + port); err != nil {
-		srv.log.Fatalf("failed to run on port [:%v]", port)
+		log.Panic().Err(err).Msg("Failed to start server")
 	}
+}
+
+func (hs *Server) Shutdown(ctx context.Context) error {
+	return hs.router.Shutdown(ctx)
 }

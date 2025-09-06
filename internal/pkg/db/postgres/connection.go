@@ -2,7 +2,7 @@ package postgres
 
 import (
 	"github.com/billykore/go-service-tmpl/internal/pkg/config"
-	"github.com/billykore/go-service-tmpl/internal/pkg/log"
+	"github.com/rs/zerolog/log"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -12,7 +12,7 @@ func New(cfg *config.Configs) *gorm.DB {
 	dsn := cfg.Postgres.DSN
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.New().Fatalf("failed to connect database: %v", err)
+		log.Panic().Err(err).Msg("failed to connect database")
 	}
 	return db
 }

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/billykore/go-service-tmpl/internal/pkg/log"
 	"github.com/go-playground/validator/v10"
+	"github.com/rs/zerolog/log"
 )
 
 // Validator is a struct that provides validation functionality for request data.
@@ -20,7 +20,7 @@ func New() *Validator {
 		v: validator.New(),
 	}
 	if err := vv.registerCustomValidation(); err != nil {
-		log.New().Fatalf("registerCustomValidation: %v", err)
+		log.Panic().Err(err).Msg("registerCustomValidation failed")
 	}
 	return vv
 }
